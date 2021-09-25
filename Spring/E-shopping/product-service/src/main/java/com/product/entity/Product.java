@@ -1,5 +1,6 @@
 package com.product.entity;
 
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -12,11 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Entity
 @Table(name="tbl_product")
+@DynamicUpdate
 public class Product 
-{
+{	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -36,9 +42,11 @@ public class Product
 	private int unitInStock;
 	
 	@Column(name="date_created")
+	@CreationTimestamp
 	private Date createdOn;
 	
 	@Column(name="last_updated")
+	@UpdateTimestamp
 	private Date updatedOn;
 	
 	@ManyToOne
@@ -47,6 +55,23 @@ public class Product
 
 	public Product() {}
 	
+	
+	public Product(Long id, String sku, String name, String description, BigDecimal unitPrice, String imageUrl,
+			boolean active, int unitInStock, Date createdOn, Date updatedOn, ProductCategory category) 
+	{
+		this.id = id;
+		this.sku = sku;
+		this.name = name;
+		this.description = description;
+		this.unitPrice = unitPrice;
+		this.imageUrl = imageUrl;
+		this.active = active;
+		this.unitInStock = unitInStock;
+		this.createdOn = createdOn;
+		this.updatedOn = updatedOn;
+		this.category = category;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -127,11 +152,20 @@ public class Product
 		this.updatedOn = updatedOn;
 	}
 
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ProductCategory category) {
+		this.category = category;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", sku=" + sku + ", name=" + name + ", description=" + description + ", unitPrice="
 				+ unitPrice + ", imageUrl=" + imageUrl + ", active=" + active + ", unitInStock=" + unitInStock
-				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + " ]";
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", category=" + category + "]";
 	}
 	
 	

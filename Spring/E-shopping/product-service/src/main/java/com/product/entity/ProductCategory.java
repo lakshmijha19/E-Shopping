@@ -1,5 +1,6 @@
 package com.product.entity;
 
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,10 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name="tbl_category")
-public class ProductCategory 
-{
+@DynamicUpdate
+public class ProductCategory {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -24,6 +27,15 @@ public class ProductCategory
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="category")
 	private Set<Product> product;
+	
+
+	public ProductCategory() {}
+	
+	public ProductCategory(Long id, String categoryName)
+	{
+		this.id = id;
+		this.categoryName = categoryName;
+	}
 
 	public Long getId() {
 		return id;
