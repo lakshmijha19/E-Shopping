@@ -9,6 +9,14 @@ spring:
           lb://PRODUCT-SERVICE
         predicates:
         - Path=/products/**,/product-category/**
+        
+      - id: profile-service
+        uri:
+          lb://PROFILE-SERVICE
+        predicates:
+        - Path=/auth/**,/test/**
+
+       
 
 
 eureka:

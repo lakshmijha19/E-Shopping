@@ -13,6 +13,4 @@ import com.product.entity.ProductCategory;
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory,Long>
 {
 
-	
-
 }
