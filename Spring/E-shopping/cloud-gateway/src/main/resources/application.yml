@@ -3,6 +3,17 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      default-filters:
+      - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            allowedHeaders: "*"
       routes:
       - id: product-service
         uri:
@@ -15,10 +26,20 @@ spring:
           lb://PROFILE-SERVICE
         predicates:
         - Path=/auth/**,/test/**
-
-       
-
-
+        
+      - id: order-service
+        uri:
+          lb://ORDER-SERVICE
+        predicates:
+        - Path=/order/**
+        filters:
+        - name: CircuitBreaker
+          args:
+            name: order-service
+            fallbackuri: forward:/orderFallBack
+server:
+  port: 9000
+  
 eureka:
   client:
     registerWithEureka: true
